@@ -117,12 +117,12 @@ func (s *SmartContract) CreateHotel(ctx contractapi.TransactionContextInterface,
 		Rating:   rating,
 	}
 
-	hotelJson, err := json.Marshal(hotel)
+	hotelJSON, err := json.Marshal(hotel)
 	if err != nil {
 		return err
 	}
 
-	err = ctx.GetStub().PutState(id, hotelJson)
+	err = ctx.GetStub().PutState(id, hotelJSON)
 	if err != nil {
 		return fmt.Errorf("can not create hotel %s", id)
 	}
@@ -131,16 +131,16 @@ func (s *SmartContract) CreateHotel(ctx contractapi.TransactionContextInterface,
 
 // ReadHotel returns the hotel stored in the world state with given id.
 func (s *SmartContract) ReadHotel(ctx contractapi.TransactionContextInterface, id string) (*Hotel, error) {
-	hotelJson, err := ctx.GetStub().GetState(id)
+	hotelJSON, err := ctx.GetStub().GetState(id)
 	if err != nil {
 		return nil, err
 	}
-	if hotelJson == nil {
+	if hotelJSON == nil {
 		return nil, fmt.Errorf("the hotel %s does not exist", id)
 	}
 
 	var hotel Hotel
-	err = json.Unmarshal(hotelJson, &hotel)
+	err = json.Unmarshal(hotelJSON, &hotel)
 	if err != nil {
 		return nil, err
 	}
@@ -165,12 +165,12 @@ func (s *SmartContract) UpdateHotel(ctx contractapi.TransactionContextInterface,
 		Rating:   rating,
 	}
 
-	hotelJson, err := json.Marshal(hotel)
+	hotelJSON, err := json.Marshal(hotel)
 	if err != nil {
 		return err
 	}
 
-	err = ctx.GetStub().PutState(id, hotelJson)
+	err = ctx.GetStub().PutState(id, hotelJSON)
 	if err != nil {
 		return fmt.Errorf("can not update information for the hotel %s", id)
 	}
