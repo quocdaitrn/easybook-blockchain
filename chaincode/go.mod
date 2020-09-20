@@ -1,4 +1,4 @@
-module bitbucket.org/quocdaitrn/hotel-rating/chaincode/hotel-rating
+module github.com/quocdaitrn/easybook-blockchain/chaincode
 
 go 1.13
 

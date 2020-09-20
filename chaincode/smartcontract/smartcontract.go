@@ -1,8 +1,9 @@
-package chaincode
+package smartcontract
 
 import (
 	"encoding/json"
 	"fmt"
+
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
 )
 
@@ -11,29 +12,86 @@ type SmartContract struct {
 	contractapi.Contract
 }
 
-// Hotel stores rating of a particular hotel
+// Hotel stores information of a hotel
 type Hotel struct {
-	ID       string  `json:"id"`
-	Name     string  `json:"name"`
-	IsActive bool    `json:"isActive"`
-	Rating   float32 `json:"rating"`
+	ID            string          `json:"id"`
+	Name          string          `json:"name"`
+	IsActive      bool            `json:"isActive"`
+	Rating        float32         `json:"rating"`
+	ServiceLevels []*ServiceLevel `json:"serviceLevels"`
+}
+
+// ServiceLevel stores information of a service level in a hotel
+type ServiceLevel struct {
+	ID               string       `json:"id"`
+	Name             string       `json:"name"`
+	IsUsed           bool         `json:"isUsed"`
+	SatisfactionRate float32      `json:"satisfactionRate"`
+	RuleAbidingRate  float32      `json:"ruleAbidingRate"`
+	HotelID          string       `json:"hotelId"`
+	Agreements       []*Agreement `json:"agreements"`
+}
+
+// Agreement stores information of a agreement of a level in a hotel
+type Agreement struct {
+	ID                          string `json:"id"`
+	IsApplied                   bool   `json:"isApplied"`
+	TotalFeedbacks              uint   `json:"totalFeedbacks"`
+	TotalUnfulfilledCommitments uint   `json:"totalUnfulfilledCommitments"`
+	IsAppliedPenalty            bool   `json:"isAppliedPenalty"`
+	TotalCompensations          uint   `json:"totalCompensations"`
+	TotalNoCompensations        uint   `json:"totalNoCompensations"`
+	ServiceLevelID              string `json:"serviceLevelId"`
+	HotelID                     string `json:"hotelId"`
 }
 
 // InitLedger adds a base set of hotels to the ledger
 func (s *SmartContract) InitLedger(ctx contractapi.TransactionContextInterface) error {
 	hotels := []Hotel{
-		{ID: "hotel1", Name: "Venice", IsActive: true, Rating: 5.0},
-		{ID: "hotel2", Name: "Milan", IsActive: true, Rating: 4.5},
-		{ID: "hotel3", Name: "Roma", IsActive: true, Rating: 4.2},
+		{
+			ID:       "1",
+			Name:     "Rex Hotel",
+			IsActive: true,
+			Rating:   8.4,
+			ServiceLevels: []*ServiceLevel{
+				{
+					ID:               "1",
+					Name:             "Standard",
+					IsUsed:           true,
+					SatisfactionRate: 0.84,
+					RuleAbidingRate:  0.0,
+					HotelID:          "1",
+					Agreements: []*Agreement{
+						{
+							ID:                          "1",
+							IsApplied:                   true,
+							TotalFeedbacks:              100,
+							TotalUnfulfilledCommitments: 16,
+							IsAppliedPenalty:            false,
+						},
+						{
+							ID:                          "2",
+							IsApplied:                   true,
+							TotalFeedbacks:              1000,
+							TotalUnfulfilledCommitments: 100,
+							IsAppliedPenalty:            false,
+						},
+					},
+				},
+			},
+		},
+		{ID: "2", Name: "Mia Saigon", IsActive: true, Rating: 9.2},
+		{ID: "3", Name: "The Myst Dong Khoi", IsActive: true, Rating: 8.8},
+		{ID: "4", Name: "Nikko Saigon", IsActive: true, Rating: 9.1},
 	}
 
 	for _, h := range hotels {
-		hotelJson, err := json.Marshal(h)
+		hotelJSON, err := json.Marshal(h)
 		if err != nil {
 			return err
 		}
 
-		err = ctx.GetStub().PutState(h.ID, hotelJson)
+		err = ctx.GetStub().PutState(h.ID, hotelJSON)
 		if err != nil {
 			return fmt.Errorf("failed to put to world state: %v", err)
 		}
