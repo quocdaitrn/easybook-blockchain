@@ -55,41 +55,41 @@ func main() {
 		log.Fatalf("Failed to get network: %v", err)
 	}
 
-	contract := network.GetContract("basic")
+	contract := network.GetContract("easybook")
 
-	result, err := contract.SubmitTransaction("InitLedger")
-	if err != nil {
-		log.Fatalf("failed to evaluate transaction: %v", err)
-	}
-	log.Println(string(result))
+	// result, err := contract.SubmitTransaction("InitLedger")
+	// if err != nil {
+	// 	log.Fatalf("failed to evaluate transaction: %v", err)
+	// }
+	// log.Println(string(result))
 
-	result, err = contract.EvaluateTransaction("GetAllHotels")
-	if err != nil {
-		log.Fatalf("Failed to evaluate transaction: %v", err)
-	}
-	log.Println(string(result))
+	// result, err = contract.EvaluateTransaction("GetAllHotels")
+	// if err != nil {
+	// 	log.Fatalf("Failed to evaluate transaction: %v", err)
+	// }
+	// log.Println(string(result))
 
-	log.Println("--> Submit Transaction: CreateHotel, creates new hotel with id, name, isActice, and rating arguments")
-	result, err = contract.SubmitTransaction("CreateHotel", "hotel101", "Torino", "true", "4.5")
+	// log.Println("--> Submit Transaction: CreateHotel, creates new hotel with id, name, isActice, and rating arguments")
+	// result, err = contract.SubmitTransaction("CreateHotel", "5", "Legend Saigon", "true", "8.1")
 
-	if err != nil {
-		log.Fatalf("Failed to evaluate transaction: %v", err)
-	}
-	log.Println(string(result))
+	// if err != nil {
+	// 	log.Fatalf("Failed to evaluate transaction: %v", err)
+	// }
+	// log.Println(string(result))
 
-	log.Println("--> Evaluate Transaction: ReadHotel, function returns an hotel with a given hotelId")
-	result, err = contract.EvaluateTransaction("ReadHotel", "hotel101")
-	if err != nil {
-		log.Fatalf("failed to evaluate transaction: %v\n", err)
-	}
-	log.Println(string(result))
-
-	log.Println("--> Evaluate Transaction: HotelExists, function returns 'true' if an asset with given hotelId exist")
-	result, err = contract.EvaluateTransaction("HotelExists", "hotel1")
+	log.Println("--> Evaluate Transaction: ReadHotel, function returns an hotel with a given hotel id")
+	result, err := contract.EvaluateTransaction("ReadHotel", "1")
 	if err != nil {
 		log.Fatalf("failed to evaluate transaction: %v\n", err)
 	}
 	log.Println(string(result))
+
+	// log.Println("--> Evaluate Transaction: HotelExists, function returns 'true' if an asset with given hotel id exist")
+	// result, err = contract.EvaluateTransaction("HotelExists", "1")
+	// if err != nil {
+	// 	log.Fatalf("failed to evaluate transaction: %v\n", err)
+	// }
+	// log.Println(string(result))
 
 	log.Println("============ application-golang ends ============")
 }
@@ -97,8 +97,12 @@ func main() {
 func populateWallet(wallet *gateway.Wallet) error {
 	log.Println("============ Populating wallet ============")
 	credPath := filepath.Join(
-		"..",
-		"..",
+		"/",
+		"/Users",
+		"124587",
+		"Projects",
+		"hyperledger",
+		"easybook-blockchain",
 		"network",
 		"organizations",
 		"peerOrganizations",

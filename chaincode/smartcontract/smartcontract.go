@@ -80,9 +80,9 @@ func (s *SmartContract) InitLedger(ctx contractapi.TransactionContextInterface) 
 				},
 			},
 		},
-		{ID: "2", Name: "Mia Saigon", IsActive: true, Rating: 9.2},
-		{ID: "3", Name: "The Myst Dong Khoi", IsActive: true, Rating: 8.8},
-		{ID: "4", Name: "Nikko Saigon", IsActive: true, Rating: 9.1},
+		// {ID: "2", Name: "Mia Saigon", IsActive: true, Rating: 9.2},
+		// {ID: "3", Name: "The Myst Dong Khoi", IsActive: true, Rating: 8.8},
+		// {ID: "4", Name: "Nikko Saigon", IsActive: true, Rating: 9.1},
 	}
 
 	for _, h := range hotels {
